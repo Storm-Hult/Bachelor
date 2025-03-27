@@ -1,0 +1,439 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formbotplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formbotplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\stockfishhandler2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\stockfishhandler2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\stockfishhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\stockfishhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\cnnhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\cnnhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\fentoarray.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\fentoarray.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\drawboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\drawboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formarchivespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formarchivespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formbotpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formbotpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formonlineplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formonlineplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\dbhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\dbhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formonlineplaypage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formonlineplaypage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\bo25eb-47\\formonlineplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formonlineplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\dbinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\dbinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formbotpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formbotpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formonlinepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formonlinepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\bo25eb-47\\formbotpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formbotpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\bo25eb-47\\formbotplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formbotplaypage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formarchivespage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formarchivespage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\bo25eb-47\\formarchivespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formarchivespage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\bo25eb-47.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\bo25eb-47.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\bo25eb-47\\formonlinepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formonlinepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\bo25eb-47\\formhomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formhomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formhomepage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formhomepage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formhomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formhomepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|c:\\users\\elias\\documents\\github\\bachelor\\bo25eb-47\\bo25eb-47\\bo25eb-47\\formonlinepage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE857A29-95C4-4A9F-8629-1AC95C184384}|BO25EB-47\\BO25EB-47.csproj|solutionrelative:bo25eb-47\\formonlinepage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StockFishHandler2.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\StockFishHandler2.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\StockFishHandler2.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\StockFishHandler2.cs",
+              "RelativeToolTip": "BO25EB-47\\StockFishHandler2.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAQwF0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T15:35:24.443Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FenToArray.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FenToArray.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FenToArray.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FenToArray.cs",
+              "RelativeToolTip": "BO25EB-47\\FenToArray.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwA0AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T15:19:35.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormBotPlayPage.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPlayPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormBotPlayPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPlayPage.cs",
+              "RelativeToolTip": "BO25EB-47\\FormBotPlayPage.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T14:42:50.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CNNHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\CNNHandler.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\CNNHandler.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\CNNHandler.cs",
+              "RelativeToolTip": "BO25EB-47\\CNNHandler.cs",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAgwIcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T20:55:46.161Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StockFishHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\StockFishHandler.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\StockFishHandler.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\StockFishHandler.cs",
+              "RelativeToolTip": "BO25EB-47\\StockFishHandler.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAiwHcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T09:32:54.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "DBHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\DBHandler.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\DBHandler.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\DBHandler.cs",
+              "RelativeToolTip": "BO25EB-47\\DBHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T10:11:43.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FormOnlinePlayPage.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormOnlinePlayPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.cs",
+              "RelativeToolTip": "BO25EB-47\\FormOnlinePlayPage.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAArwCUAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T14:47:22.105Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FormBotPage.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormBotPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPage.cs",
+              "RelativeToolTip": "BO25EB-47\\FormBotPage.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAnwDMAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T13:13:09.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\Program.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\Program.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\Program.cs",
+              "RelativeToolTip": "BO25EB-47\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T13:53:21.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DrawBoard.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\DrawBoard.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\DrawBoard.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\DrawBoard.cs",
+              "RelativeToolTip": "BO25EB-47\\DrawBoard.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAkwH8AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T12:58:38.898Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FormArchivesPage.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormArchivesPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormArchivesPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormArchivesPage.cs",
+              "RelativeToolTip": "BO25EB-47\\FormArchivesPage.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAmwIMAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T12:16:54.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FormOnlinePlayPage.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.Designer.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormOnlinePlayPage.Designer.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.Designer.cs",
+              "RelativeToolTip": "BO25EB-47\\FormOnlinePlayPage.Designer.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAswHwAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T15:56:28.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "FormOnlinePlayPage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormOnlinePlayPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\source\\repos\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\source\\repos\\BO25EB-47\\BO25EB-47\\FormOnlinePlayPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T14:29:00.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DBInitialize.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\DBInitialize.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\DBInitialize.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\DBInitialize.cs",
+              "RelativeToolTip": "BO25EB-47\\DBInitialize.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAowLEAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T13:26:15.985Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "FormBotPage.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPage.Designer.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormBotPage.Designer.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPage.Designer.cs",
+              "RelativeToolTip": "BO25EB-47\\FormBotPage.Designer.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAYwH4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T13:25:44.151Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "FormOnlinePage.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormOnlinePage.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePage.cs",
+              "RelativeToolTip": "BO25EB-47\\FormOnlinePage.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAewB4AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T11:56:06.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "FormBotPage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormBotPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\source\\repos\\BO25EB-47\\BO25EB-47\\FormBotPage.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\source\\repos\\BO25EB-47\\BO25EB-47\\FormBotPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T12:09:04.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FormBotPlayPage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormBotPlayPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormBotPlayPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\source\\repos\\BO25EB-47\\BO25EB-47\\FormBotPlayPage.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\source\\repos\\BO25EB-47\\BO25EB-47\\FormBotPlayPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T14:28:51.485Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FormArchivesPage.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormArchivesPage.Designer.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormArchivesPage.Designer.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormArchivesPage.Designer.cs",
+              "RelativeToolTip": "BO25EB-47\\FormArchivesPage.Designer.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAuwAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T12:18:42.714Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "FormArchivesPage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormArchivesPage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormArchivesPage.cs",
+              "ToolTip": "C:\\Users\\Elias\\source\\repos\\BO25EB-47\\BO25EB-47\\FormArchivesPage.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\source\\repos\\BO25EB-47\\BO25EB-47\\FormArchivesPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T14:20:54.086Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "FormOnlinePage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormOnlinePage.cs",
+              "ToolTip": "C:\\Users\\Elias\\source\\repos\\BO25EB-47\\BO25EB-47\\FormOnlinePage.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\source\\repos\\BO25EB-47\\BO25EB-47\\FormOnlinePage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T11:44:09.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "BO25EB-47.csproj",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\BO25EB-47.csproj",
+              "RelativeDocumentMoniker": "BO25EB-47\\BO25EB-47.csproj",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\BO25EB-47.csproj",
+              "RelativeToolTip": "BO25EB-47\\BO25EB-47.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-14T13:21:45.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "FormHomePage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormHomePage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormHomePage.cs",
+              "ToolTip": "C:\\Users\\Elias\\source\\repos\\BO25EB-47\\BO25EB-47\\FormHomePage.cs [Design]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\source\\repos\\BO25EB-47\\BO25EB-47\\FormHomePage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T13:27:19.182Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "FormHomePage.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormHomePage.Designer.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormHomePage.Designer.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormHomePage.Designer.cs",
+              "RelativeToolTip": "BO25EB-47\\FormHomePage.Designer.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAADsAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T13:30:38.378Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "FormHomePage.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormHomePage.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormHomePage.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormHomePage.cs",
+              "RelativeToolTip": "BO25EB-47\\FormHomePage.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAQwC0AAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T12:54:43.428Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "FormOnlinePage.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePage.Designer.cs",
+              "RelativeDocumentMoniker": "BO25EB-47\\FormOnlinePage.Designer.cs",
+              "ToolTip": "C:\\Users\\Elias\\Documents\\GitHub\\Bachelor\\BO25EB-47\\BO25EB-47\\BO25EB-47\\FormOnlinePage.Designer.cs",
+              "RelativeToolTip": "BO25EB-47\\FormOnlinePage.Designer.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwE8AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-11T11:56:24.604Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
