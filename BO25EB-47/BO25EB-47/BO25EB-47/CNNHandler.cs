@@ -55,13 +55,6 @@ namespace BO25EB_47
                 capture.Set(CapProp.Saturation, 60);
                 capture.Set(CapProp.Gamma, 1);
 
-                double exp = capture.Get(CapProp.Exposure);
-                Console.WriteLine("Exposure: " + exp);
-                double focus = capture.Get(CapProp.Focus);
-                Console.WriteLine("Focus: " + focus);
-                double gain = capture.Get(CapProp.Gain);
-                Console.WriteLine("Gain: " + gain);
-
                 // Ta et bilde
                 Mat frame = new Mat();
                 capture.Read(frame);

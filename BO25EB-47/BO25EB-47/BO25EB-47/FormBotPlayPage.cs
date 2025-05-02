@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace BO25EB_47
 {
     public partial class FormBotPlayPage : Form
     {
+        private CancellationTokenSource _cts;
         public string BotPlaysAs { get; set; }
         public int BotDifficulty { get; set; }
 
@@ -24,12 +26,30 @@ namespace BO25EB_47
         string Position;
         string TempFen;
         string UCIMove;
+        string Winner;
+        bool CheckMate = false;
+        DateTime CreationTime;
+        int MoveCount = 1;
+
+        private DrawBoardClass _drawBoard;
         // Hei
         public FormBotPlayPage()
         {
             InitializeComponent();
             this.Load += new EventHandler(FormBotPlayPage_Load);
+            this.FormClosed += FormBotPlayPage_FormClosed;
         }
+
+        private void FormBotPlayPage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+                _cts.Dispose();
+                _cts = null;
+            }
+        }
+
 
         private async void FormBotPlayPage_Load(object sender, EventArgs e)
         {
@@ -46,6 +66,8 @@ namespace BO25EB_47
                 Turn = "Player";
             }
 
+            DBHandler.CreateBotGame(Difficulty, 0, Winner, PlaysAs, CreationTime);
+
             char[,] chessBoard = FenToArray.FenToMatrix(CurrentFEN);
             DrawBoardClass drawBoard = new DrawBoardClass();
             drawBoard.DrawBoard(800, 160, chessBoard, PlaysAs);
@@ -54,7 +76,8 @@ namespace BO25EB_47
             MessageBox.Show($"Du spiller som: {BotPlaysAs}\nVanskelighetsgrad: {Difficulty}", "Bot Settings");
 
             // Start MoveHandler uten å await
-            _ = MoveHandler();
+            _cts = new CancellationTokenSource();
+            _ = MoveHandler(_cts.Token);
         }
 
         private void btnBotPlayExit_Click(object sender, EventArgs e)
@@ -69,25 +92,23 @@ namespace BO25EB_47
             this.Close();
         }
 
-        public async Task MoveHandler()
+        public async Task MoveHandler(CancellationToken token)
         {
             while (true)
             {
+                token.ThrowIfCancellationRequested();
                 if (Turn == "Player")
                 {
-                    MessageBox.Show("spillers tur");
                     try
                     {
 
                         // Unngå busy-waiting
-                        await Task.Delay(100);
+                        await Task.Delay(100, token);
 
                         // Kjør bildeanalysen på en bakgrunnstråd slik at UI ikke blokkeres
-                        Position = await Task.Run(() => CNNHandler.AnalyzeImage());
-                        MessageBox.Show($"{Position}");
+                        Position = await Task.Run(() => CNNHandler.AnalyzeImage(), token);
                         // Erstatt posisjonsdelen i den nåværende FEN med den nye posisjonsdelen
                         TempFen = StockFishHandler.ReplaceFenPosition(CurrentFEN, Position);
-                        MessageBox.Show($"TempFen test: {TempFen}");
                         
                         // Hvis posisjonsdelen ikke har endret seg, vent og prøv igjen
                         if (TempFen == LastFEN)
@@ -103,19 +124,16 @@ namespace BO25EB_47
                         StockFishHandler2 checker = new StockFishHandler2();
 
                         // Kjør simuleringen (kan også pakkes inn i Task.Run hvis den er tung)
-                        MessageBox.Show($"Current Fen: {CurrentFEN}");
-                        UCIMove = await Task.Run(() => checker.FindUci(CurrentFEN, TempFen));
-                        MessageBox.Show($"UCI move: {UCIMove}");
+                        // MessageBox.Show($"Temp Fen: {TempFen}");
+                        UCIMove = await Task.Run(() => checker.FindUci(CurrentFEN, TempFen), token);
                         if (!string.IsNullOrEmpty(UCIMove))
                         {
-                            CurrentFEN = await Task.Run(() => checker.FenMove(CurrentFEN, UCIMove));
-                            this.Invoke((MethodInvoker)(() =>
-                            {
-                                DrawBoardClass drawBoard = new DrawBoardClass();
-                                drawBoard.TegnBrettMedFen(CurrentFEN, PlaysAs);
-                            }));
+                            CurrentFEN = await Task.Run(() => checker.FenMove(CurrentFEN, UCIMove), token);
+                            //_drawBoard.TegnBrettMedFen(CurrentFEN, PlaysAs);
                             Turn = "Bot";
-                            MessageBox.Show("Trekk utført");
+                            DBHandler.SaveBotMove(UCIMove, CurrentFEN);
+                            MoveCount++;
+                            DBHandler.UpdateBotGameMoveCount(MoveCount);
                         }
                     }
                     catch (Exception ex)
@@ -128,21 +146,20 @@ namespace BO25EB_47
                     try
                     {
                         await Task.Delay(100);
-
                         StockFishHandler checker = new StockFishHandler();
                         // Finn et trekk med ønsket søkedybde
-                        string botMove = await Task.Run(() => checker.FindMove(CurrentFEN, Difficulty * 2));
-                        MessageBox.Show($"Utfør trekk: {botMove}");
+                        string botMove = await Task.Run(() => checker.FindMove(CurrentFEN, Difficulty * 2), token);
                         if (!string.IsNullOrEmpty(botMove))
                         {
-                            CurrentFEN = await Task.Run(() => checker.ApplyUciMove(CurrentFEN, botMove));
-
-                            this.Invoke((MethodInvoker)(() =>
-                            {
-                                DrawBoardClass drawBoard = new DrawBoardClass();
-                                drawBoard.TegnBrettMedFen(CurrentFEN, PlaysAs);
-                            }));
+                            TempFen = CurrentFEN;
+                            UCIMove = botMove;
+                            CurrentFEN = await Task.Run(() => checker.ApplyUciMove(CurrentFEN, botMove), token);
+                            ExecuteMove();
+                            //_drawBoard.TegnBrettMedFen(CurrentFEN, PlaysAs);
                             Turn = "Player";
+                            DBHandler.SaveBotMove(UCIMove, CurrentFEN);
+                            MoveCount++;
+                            DBHandler.UpdateBotGameMoveCount(MoveCount);
                         }
                         checker.Close();
                     }
@@ -152,6 +169,12 @@ namespace BO25EB_47
                     }
                 }
             }
+        }
+        private void ExecuteMove()
+        {
+            string movetype = RobotWaypointsFinder.GetMoveType(TempFen, CurrentFEN, UCIMove);
+            List<double[]> waypoints = RobotWaypointsFinder.GetRobotWaypoints(movetype, UCIMove, TempFen, CurrentFEN);
+            RobotWaypointsFinder.SendWaypointsToPython(waypoints);
         }
     }
 }

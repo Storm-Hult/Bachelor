@@ -10,15 +10,21 @@ namespace BO25EB_47
     {
         public static char[,] FenToMatrix(string fen)
         {
-            // Finn første mellomrom
             int spaceIndex = fen.IndexOf(' ');
             if (spaceIndex == -1) throw new ArgumentException("Ugyldig FEN-streng.");
 
-            // Hent kun brettdelen (før første mellomrom)
             string boardPart = fen.Substring(0, spaceIndex);
             char[,] board = new char[8, 8];
 
-            // Konverter FEN til 8x8 brett
+            // Sett alle ruter til '.' som representerer tomme felter
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    board[i, j] = '.';
+                }
+            }
+
             string[] rows = boardPart.Split('/');
             if (rows.Length != 8) throw new ArgumentException("Ugyldig FEN-struktur.");
 
@@ -27,11 +33,11 @@ namespace BO25EB_47
                 int col = 0;
                 foreach (char c in rows[row])
                 {
-                    if (char.IsDigit(c)) // Tomme felter
+                    if (char.IsDigit(c))
                     {
                         col += c - '0';
                     }
-                    else // Brikker
+                    else
                     {
                         board[row, col] = c;
                         col++;
@@ -41,6 +47,7 @@ namespace BO25EB_47
 
             return board;
         }
+
 
         public static string MatrixToFEN(char[,] board)
         {

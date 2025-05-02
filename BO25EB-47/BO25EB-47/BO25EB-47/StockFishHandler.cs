@@ -50,7 +50,7 @@ namespace BO25EB_47
         }
 
         public string GetUciMove(string fenBefore, string fenAfter)
-{
+    {
     // Sett posisjon til fenBefore og be om visning av posisjon (som skal inneholde "Legal moves:")
     _stockfishProcess.StandardInput.WriteLine($"position fen {fenBefore}");
     _stockfishProcess.StandardInput.WriteLine("d");
@@ -114,7 +114,7 @@ namespace BO25EB_47
     }
 
     return "";
-}
+    }
 
 
         public void Close()
