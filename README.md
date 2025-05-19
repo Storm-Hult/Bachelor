@@ -1,9 +1,29 @@
-# Bachelor
-05.02.2025
-mye jobb med nytt design innenfor bilde manipulering. veldig mye tull med de forskjellige fargene på hjørnene med tanke på intervallene i rgb. veldig lett å splitte opp brette i 64 ruter etter vi endelig fullførte med dde forskjellige fargene i hjørnene
+# B025EB-47 Sjakkrobot
 
-10.02 
-jobbet på oppsett av interface mens vi venter på varer samtidig som skriving om bilde manipulasjon
+## Project Overview
+This project is a fully autonomous chess-playing robot designed to recognize a chessboard, identify piece positions, calculate moves using a chess engine, and physically execute those moves using a robotic arm. The system is capable of playing against a human opponent and functions without human intervention once a game begins.
 
-14.02
-etter å ha skrevet og jobbet med interface hele uka har vi endelig fått delene så vi har plassert magnetene på brikkene og brettet. vi har nå tenkt å bytte fargene i hjørnene med aCura koder sånn at  kameraet kan justere seg iforhold til de.
+## Authors
+- Storm Hultgren
+- Elias Trones Jåstad
+
+## Supervisor
+- Frikk Hosøy Fossdal
+
+## System Components
+- **Camera System**: Recognizes the chessboard layout, detects piece positions, and tracks changes.
+- **Convolutional Neural Network (CNN)**: Identifies each chess piece using image classification.
+- **Chess Engine**: Uses Stockfish to calculate legal and strategic moves.
+- **Robotic Arm (UR5e)**: Executes moves calculated by the chess engine.
+- **Graphical User Interface (GUI)**: Developed using C# in Visual Studio, offering two main modes:
+  - Bot Play: Play against the robot using Stockfish.
+  - Online Play (planned): Play against human opponents online.
+
+## Key Features
+- Automatic piece recognition using a CNN.
+- Accurate board recognition using ArUco markers in OpenCV.
+- Stockfish integration for move calculation.
+- Robotic arm for precise piece manipulation.
+- Error detection and recovery system.
+- Move execution in under 30 seconds (in most cases).
+- User-friendly C# GUI with multiple play modes.
