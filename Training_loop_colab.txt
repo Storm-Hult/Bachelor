@@ -1,0 +1,198 @@
+import time
+import torch
+import torchvision
+import torchvision.transforms as transforms
+from torchvision import models
+from torch.utils.data import DataLoader, WeightedRandomSampler
+import torch.optim as optim
+import torch.nn as nn
+import zipfile
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+
+zip_path = "/content/Training_set.zip"
+extract_path = "/content/dataset"
+
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_path)
+
+print(f"Dataset unzipped to {extract_path}")
+
+dataset_root = "/content/dataset/Training_set"
+train_dir = os.path.join(dataset_root, "Training")
+val_dir = os.path.join(dataset_root, "Validation")
+test_dir = os.path.join(dataset_root, "Test")
+
+transform = transforms.Compose([
+    transforms.Grayscale(num_output_channels=1),
+    transforms.Resize((130, 130)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5], [0.5])
+])
+
+train_dataset = torchvision.datasets.ImageFolder(root=train_dir, transform=transform)
+val_dataset = torchvision.datasets.ImageFolder(root=val_dir, transform=transform)
+test_dataset = torchvision.datasets.ImageFolder(root=test_dir, transform=transform)
+
+class_counts = {
+    "EmptySquare": 3072,
+    "WhiteKing": 256,
+    "WhiteQueen": 256,
+    "BlackKing": 256,
+    "BlackQueen": 256,
+    "BlackBishop": 512,
+    "BlackKnight": 512,
+    "BlackPawn": 512,
+    "BlackRook": 512,
+    "WhiteBishop": 512,
+    "WhiteKnight": 512,
+    "WhitePawn": 512,
+    "WhiteRook": 512
+}
+
+class_weights = []
+for label in train_dataset.classes:
+    class_weights.append(1.0 / class_counts[label])
+
+class_weights = torch.tensor(class_weights, dtype=torch.float32)
+
+targets = [label for _, label in train_dataset.samples]
+sample_weights = [class_weights[t] for t in targets]
+sampler = WeightedRandomSampler(sample_weights, num_samples=len(sample_weights), replacement=True)
+
+train_loader = DataLoader(train_dataset, batch_size=32, sampler=sampler)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+print("🔹 Klasser funnet:", train_dataset.classes)
+
+model = models.efficientnet_b0(pretrained=True)
+original_conv = model.features[0][0]
+new_conv = nn.Conv2d(
+    in_channels=1,
+    out_channels=original_conv.out_channels,
+    kernel_size=original_conv.kernel_size,
+    stride=original_conv.stride,
+    padding=original_conv.padding,
+    bias=original_conv.bias is not None
+)
+with torch.no_grad():
+    new_conv.weight[:] = original_conv.weight.mean(dim=1, keepdim=True)
+model.features[0][0] = new_conv
+
+torch.save(model.state_dict(), "efficientnet_b0_gray130.pth")
+
+model.classifier = nn.Sequential(
+    nn.Dropout(0.4),
+    nn.Linear(1280, len(train_dataset.classes))
+)
+torch.save(model.state_dict(), "efficientnet_b0_gray130_offline.pth")
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = model.to(device)
+
+criterion = nn.CrossEntropyLoss(weight=class_weights.to(device))
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=2, factor=0.5, verbose=True)
+
+best_val_loss = float("inf")
+patience = 3
+wait = 0
+
+total_start_time = time.time()
+num_epochs = 30
+train_losses, val_losses, val_accuracies = [], [], []
+
+for epoch in range(num_epochs):
+    start_time = time.time()
+
+    model.train()
+    train_loss = 0.0
+    for images, labels in train_loader:
+        images, labels = images.to(device), labels.to(device)
+
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        train_loss += loss.item()
+
+    model.eval()
+    val_loss = 0.0
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in val_loader:
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            val_loss += loss.item()
+
+            _, predicted = torch.max(outputs, 1)
+            correct += (predicted == labels).sum().item()
+            total += labels.size(0)
+
+    val_accuracy = 100 * correct / total
+    train_losses.append(train_loss / len(train_loader))
+    val_losses.append(val_loss / len(val_loader))
+    val_accuracies.append(val_accuracy)
+
+    epoch_time = time.time() - start_time
+    print(f"Epoch {epoch+1}: Train Loss = {train_losses[-1]:.4f}, Val Loss = {val_losses[-1]:.4f}, Val Acc = {val_accuracy:.2f}%, Time: {epoch_time:.2f}s")
+
+    if val_loss < best_val_loss:
+        best_val_loss = val_loss
+        wait = 0
+        torch.save(model.state_dict(), "best_model.pth")
+        print("Best model saved!")
+    else:
+        wait += 1
+        print(f"No improvement, patience: {wait}/{patience}")
+        if wait >= patience:
+            print("Early stopping activated! Stopping training.")
+            break
+
+    scheduler.step(val_loss)
+
+print("\nEvaluering på testsett...")
+model.load_state_dict(torch.load("best_model.pth"))
+model.eval()
+test_loss = 0.0
+correct = 0
+total = 0
+
+with torch.no_grad():
+    for images, labels in test_loader:
+        images, labels = images.to(device), labels.to(device)
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        test_loss += loss.item()
+
+        _, predicted = torch.max(outputs, 1)
+        correct += (predicted == labels).sum().item()
+        total += labels.size(0)
+
+test_accuracy = 100 * correct / total
+print(f"Test Accuracy = {test_accuracy:.2f}%")
+
+plt.figure(figsize=(10, 5))
+plt.plot(train_losses, label="Train Loss")
+plt.plot(val_losses, label="Val Loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.legend()
+plt.title("Loss per Epoch")
+plt.show()
+
+plt.figure(figsize=(10, 5))
+plt.plot(val_accuracies, label="Val Accuracy", color="green")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy (%)")
+plt.legend()
+plt.title("Validation Accuracy per Epoch")
+plt.show()
