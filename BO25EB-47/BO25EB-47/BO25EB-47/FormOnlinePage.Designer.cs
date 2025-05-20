@@ -33,6 +33,7 @@
             Time = new ListBox();
             Requests = new ListBox();
             txtPlayerID = new TextBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // btnOnlineHome
@@ -80,11 +81,21 @@
             txtPlayerID.Size = new Size(150, 31);
             txtPlayerID.TabIndex = 4;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(313, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(113, 25);
+            label1.TabIndex = 5;
+            label1.Text = "Online menu";
+            // 
             // FormOnlinePage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(txtPlayerID);
             Controls.Add(Requests);
             Controls.Add(Time);
@@ -103,5 +114,6 @@
         private ListBox Time;
         private ListBox Requests;
         private TextBox txtPlayerID;
+        private Label label1;
     }
 }

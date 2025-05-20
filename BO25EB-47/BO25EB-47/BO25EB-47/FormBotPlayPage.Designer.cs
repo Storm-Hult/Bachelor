@@ -28,21 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnBotPlayMove = new Button();
             btnBotPlayEval = new Button();
             btnBotPlayBestMove = new Button();
             btnBotPlayExit = new Button();
             txtBotPlayTurn = new TextBox();
+            label1 = new Label();
             SuspendLayout();
-            // 
-            // btnBotPlayMove
-            // 
-            btnBotPlayMove.Location = new Point(101, 37);
-            btnBotPlayMove.Name = "btnBotPlayMove";
-            btnBotPlayMove.Size = new Size(152, 34);
-            btnBotPlayMove.TabIndex = 0;
-            btnBotPlayMove.Text = "Make move";
-            btnBotPlayMove.UseVisualStyleBackColor = true;
             // 
             // btnBotPlayEval
             // 
@@ -52,6 +43,7 @@
             btnBotPlayEval.TabIndex = 1;
             btnBotPlayEval.Text = "Show evaluation";
             btnBotPlayEval.UseVisualStyleBackColor = true;
+            btnBotPlayEval.Click += btnBotPlayEval_Click;
             // 
             // btnBotPlayBestMove
             // 
@@ -61,6 +53,7 @@
             btnBotPlayBestMove.TabIndex = 2;
             btnBotPlayBestMove.Text = "Best move";
             btnBotPlayBestMove.UseVisualStyleBackColor = true;
+            btnBotPlayBestMove.Click += btnBotPlayBestMove_Click;
             // 
             // btnBotPlayExit
             // 
@@ -79,16 +72,25 @@
             txtBotPlayTurn.Size = new Size(152, 31);
             txtBotPlayTurn.TabIndex = 4;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(118, 55);
+            label1.Name = "label1";
+            label1.Size = new Size(117, 25);
+            label1.TabIndex = 5;
+            label1.Text = "Bot playpage";
+            // 
             // FormBotPlayPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(txtBotPlayTurn);
             Controls.Add(btnBotPlayExit);
             Controls.Add(btnBotPlayBestMove);
             Controls.Add(btnBotPlayEval);
-            Controls.Add(btnBotPlayMove);
             Name = "FormBotPlayPage";
             Text = "FormBotPlayPage";
             ResumeLayout(false);
@@ -96,11 +98,10 @@
         }
 
         #endregion
-
-        private Button btnBotPlayMove;
         private Button btnBotPlayEval;
         private Button btnBotPlayBestMove;
         private Button btnBotPlayExit;
         private TextBox txtBotPlayTurn;
+        private Label label1;
     }
 }

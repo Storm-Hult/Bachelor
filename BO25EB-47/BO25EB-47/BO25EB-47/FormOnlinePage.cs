@@ -17,26 +17,28 @@ namespace BO25EB_47
             InitializeComponent();
         }
 
+        // Navigate back to the home screen
         private void btnOnlineHome_Click(object sender, EventArgs e)
         {
-            // Opprett en ny instans av FormHomePage
-            FormHomePage homePage = new FormHomePage();
-            homePage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            homePage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
+            FormHomePage homePage = new FormHomePage
+            {
+                FormBorderStyle = FormBorderStyle.None,    // Remove borders
+                WindowState = FormWindowState.Maximized    // Launch in fullscreen
+            };
             homePage.Show();
-            this.Close();
+            this.Close();  // Close the current form
         }
 
+        // Start a new online game
         private void btnOnlineStart_Click(object sender, EventArgs e)
         {
-            // Opprett en ny instans av FormOnlinePlayPage
-            FormOnlinePlayPage onlinePlayPage = new FormOnlinePlayPage();
-            onlinePlayPage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            onlinePlayPage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
+            FormOnlinePlayPage onlinePlayPage = new FormOnlinePlayPage
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                WindowState = FormWindowState.Maximized
+            };
             onlinePlayPage.Show();
-            this.Close();
+            this.Close();  // Close the setup page
         }
     }
 }

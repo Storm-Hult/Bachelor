@@ -32,6 +32,7 @@
             btnHomeOnline = new Button();
             btnHomeArchives = new Button();
             btnHomeExit = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // btnHomeBot
@@ -74,11 +75,21 @@
             btnHomeExit.UseVisualStyleBackColor = true;
             btnHomeExit.Click += btnHomeExit_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(338, 72);
+            label1.Name = "label1";
+            label1.Size = new Size(101, 25);
+            label1.TabIndex = 4;
+            label1.Text = "Main menu";
+            // 
             // FormHomePage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(btnHomeExit);
             Controls.Add(btnHomeArchives);
             Controls.Add(btnHomeOnline);
@@ -86,6 +97,7 @@
             Name = "FormHomePage";
             Text = "FormHomePage";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -94,5 +106,6 @@
         private Button btnHomeOnline;
         private Button btnHomeArchives;
         private Button btnHomeExit;
+        private Label label1;
     }
 }

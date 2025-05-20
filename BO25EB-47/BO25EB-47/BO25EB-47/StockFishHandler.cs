@@ -6,117 +6,102 @@ namespace BO25EB_47
 {
     internal class StockFishHandler
     {
-        // Global prosess for Stockfish
         private Process _stockfishProcess;
 
         public StockFishHandler()
         {
-            StartStockfish();
+            StartStockfish();  // Start Stockfish when handler is created
         }
 
+        // Starts the Stockfish process and initializes UCI mode
         private void StartStockfish()
         {
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "C:\\Users\\Elias\\Documents\\skole\\stockfish-windows-x86-64-avx2\\stockfish\\stockfish-windows-x86-64-avx2.exe",  // Juster banen etter behov
+                FileName = @"C:\Users\Elias\Documents\skole\stockfish-windows-x86-64-avx2\stockfish\stockfish-windows-x86-64-avx2.exe",
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
 
-            _stockfishProcess = new Process();
-            _stockfishProcess.StartInfo = psi;
+            _stockfishProcess = new Process { StartInfo = psi };
             _stockfishProcess.Start();
 
-            // Initialiser UCI-modus
+            // Initialize UCI
             _stockfishProcess.StandardInput.WriteLine("uci");
             _stockfishProcess.StandardInput.Flush();
             string line;
             while ((line = _stockfishProcess.StandardOutput.ReadLine()) != null)
             {
-                if (line.Trim() == "uciok")
-                    break;
+                if (line.Trim() == "uciok") break;
             }
 
-            // Synkroniser med isready
+            // Wait until Stockfish is ready
             _stockfishProcess.StandardInput.WriteLine("isready");
             _stockfishProcess.StandardInput.Flush();
             while ((line = _stockfishProcess.StandardOutput.ReadLine()) != null)
             {
-                if (line.Trim() == "readyok")
-                    break;
+                if (line.Trim() == "readyok") break;
             }
         }
 
+        // Detects which legal move transforms one FEN into another
         public string GetUciMove(string fenBefore, string fenAfter)
-    {
-    // Sett posisjon til fenBefore og be om visning av posisjon (som skal inneholde "Legal moves:")
-    _stockfishProcess.StandardInput.WriteLine($"position fen {fenBefore}");
-    _stockfishProcess.StandardInput.WriteLine("d");
-    _stockfishProcess.StandardInput.Flush();
-
-    string line;
-    string legalMovesLine = null;
-    DateTime timeout = DateTime.Now.AddSeconds(10);
-    while (DateTime.Now < timeout && (line = _stockfishProcess.StandardOutput.ReadLine()) != null)
-    {
-        if (line.StartsWith("Legal moves:"))
         {
-            legalMovesLine = line;
-            break;
-        }
-    }
-    if (string.IsNullOrEmpty(legalMovesLine))
-    {
-        return "";
-    }
+            _stockfishProcess.StandardInput.WriteLine($"position fen {fenBefore}");
+            _stockfishProcess.StandardInput.WriteLine("d");
+            _stockfishProcess.StandardInput.Flush();
 
-    // Del opp linjen; forventet format: "Legal moves: e2e4 e2e3 g1f3 ..."
-    string[] tokens = legalMovesLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-    if (tokens.Length < 3)
-    {
-        return "";
-    }
-
-    // Sammenlign kun brettdelen (det første feltet) av fenAfter
-    string boardAfter = fenAfter.Split(' ')[0];
-
-    // Iterer over alle lovlige trekk (starter fra index 2)
-    for (int i = 2; i < tokens.Length; i++)
-    {
-        string move = tokens[i];
-
-        // Simuler trekket
-        _stockfishProcess.StandardInput.WriteLine($"position fen {fenBefore} moves {move}");
-        _stockfishProcess.StandardInput.WriteLine("d");
-        _stockfishProcess.StandardInput.Flush();
-
-        string newFen = null;
-        DateTime moveTimeout = DateTime.Now.AddSeconds(5);
-        while (DateTime.Now < moveTimeout && (line = _stockfishProcess.StandardOutput.ReadLine()) != null)
-        {
-            if (line.StartsWith("Fen:"))
+            string line;
+            string legalMovesLine = null;
+            DateTime timeout = DateTime.Now.AddSeconds(10);
+            while (DateTime.Now < timeout && (line = _stockfishProcess.StandardOutput.ReadLine()) != null)
             {
-                newFen = line.Substring(5).Trim();
-                break;
+                if (line.StartsWith("Legal moves:"))
+                {
+                    legalMovesLine = line;
+                    break;
+                }
             }
-        }
 
-        if (!string.IsNullOrEmpty(newFen))
-        {
-            string boardNew = newFen.Split(' ')[0];
-            if (boardNew.Equals(boardAfter, StringComparison.Ordinal))
+            if (string.IsNullOrEmpty(legalMovesLine)) return "";
+
+            string[] tokens = legalMovesLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (tokens.Length < 3) return "";
+
+            string boardAfter = fenAfter.Split(' ')[0];
+            for (int i = 2; i < tokens.Length; i++)
             {
-                return move;
+                string move = tokens[i];
+
+                _stockfishProcess.StandardInput.WriteLine($"position fen {fenBefore} moves {move}");
+                _stockfishProcess.StandardInput.WriteLine("d");
+                _stockfishProcess.StandardInput.Flush();
+
+                string newFen = null;
+                DateTime moveTimeout = DateTime.Now.AddSeconds(5);
+                while (DateTime.Now < moveTimeout && (line = _stockfishProcess.StandardOutput.ReadLine()) != null)
+                {
+                    if (line.StartsWith("Fen:"))
+                    {
+                        newFen = line.Substring(5).Trim();
+                        break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(newFen))
+                {
+                    string boardNew = newFen.Split(' ')[0];
+                    if (boardNew.Equals(boardAfter, StringComparison.Ordinal))
+                        return move;
+                }
             }
+
+            return "";
         }
-    }
 
-    return "";
-    }
-
-
+        // Cleanly shuts down the Stockfish process
         public void Close()
         {
             if (_stockfishProcess != null && !_stockfishProcess.HasExited)
@@ -127,19 +112,17 @@ namespace BO25EB_47
             }
         }
 
+        // Applies a move to a FEN position and returns the new FEN
         public string ApplyUciMove(string fen, string uciMove)
         {
-            // Sett opp posisjonen og utfør trekket
             _stockfishProcess.StandardInput.WriteLine($"position fen {fen} moves {uciMove}");
             _stockfishProcess.StandardInput.Flush();
 
-            // Be Stockfish skrive ut den nye posisjonen
             _stockfishProcess.StandardInput.WriteLine("d");
             _stockfishProcess.StandardInput.Flush();
 
             string line;
             string newFen = "";
-            // Les ut Stockfish sin output til vi finner linjen med "Fen:"
             while ((line = _stockfishProcess.StandardOutput.ReadLine()) != null)
             {
                 if (line.StartsWith("Fen:"))
@@ -152,49 +135,64 @@ namespace BO25EB_47
             return newFen;
         }
 
+        // Lets Stockfish find the best move from a given position and search depth
         public string FindMove(string fen, int difficulty)
         {
-            // Sett opp posisjonen
             _stockfishProcess.StandardInput.WriteLine($"position fen {fen}");
             _stockfishProcess.StandardInput.Flush();
 
-            // Be Stockfish om å finne et trekk med søkedybde lik difficulty
             _stockfishProcess.StandardInput.WriteLine($"go depth {difficulty}");
             _stockfishProcess.StandardInput.Flush();
 
             string bestMove = "";
             string line;
-            // Les output til vi finner linjen med "bestmove"
             while ((line = _stockfishProcess.StandardOutput.ReadLine()) != null)
             {
                 if (line.StartsWith("bestmove"))
                 {
-                    // Linjen ser typisk slik ut: "bestmove e2e4 ponder e7e5"
                     string[] tokens = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (tokens.Length >= 2)
-                    {
                         bestMove = tokens[1];
-                    }
                     break;
                 }
             }
+
             return bestMove;
         }
 
-        // Implementasjon av ReplaceFenPosition under GetUciMove
-        public static string ReplaceFenPosition(string fen, string Position)
+        // Checks if the current position is a stalemate
+        public bool IsStalemate(string fen)
         {
-            // Split FEN-strengen på mellomrom
-            string[] parts = fen.Split(' ');
-            if (parts.Length < 6)
+            _stockfishProcess.StandardInput.WriteLine($"position fen {fen}");
+            _stockfishProcess.StandardInput.WriteLine("go depth 1");
+            _stockfishProcess.StandardInput.Flush();
+
+            string line;
+            bool hasLegalMoves = false;
+
+            // Check if any legal moves exist
+            while ((line = _stockfishProcess.StandardOutput.ReadLine()) != null)
             {
-                throw new ArgumentException("FEN-strengen må inneholde minst 6 deler.");
+                if (line.StartsWith("bestmove") && !line.Contains("(none)"))
+                {
+                    hasLegalMoves = true;
+                    break;
+                }
             }
 
-            // Bygg ny FEN: erstatt den første delen (posisjonsdelen) med variabelen Position,
-            // og behold de resterende delene (aktiv farge, rokade, en passant, etc.)
-            string newFen = Position + " " + string.Join(" ", parts, 1, parts.Length - 1);
-            return newFen;
+            if (hasLegalMoves) return false;
+
+            // If no moves, check if king is in check (if not, it's stalemate)
+            _stockfishProcess.StandardInput.WriteLine("d");
+            _stockfishProcess.StandardInput.Flush();
+
+            while ((line = _stockfishProcess.StandardOutput.ReadLine()) != null)
+            {
+                if (line.StartsWith("Checkers:"))
+                    return line.Trim().EndsWith("none");
+            }
+
+            return false;
         }
     }
 }

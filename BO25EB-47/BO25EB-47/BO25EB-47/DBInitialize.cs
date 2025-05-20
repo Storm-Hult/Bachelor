@@ -6,25 +6,27 @@ namespace BO25EB_47
 {
     public class DBInitialize
     {
+        // Entry point for database setup
         public static void InitializeDB()
         {
-            // Start PostgreSQL hvis den ikke kjører
+            // Start PostgreSQL service if not already running
             StartPostgreSQL();
 
             if (DatabaseExists("sjakkdb"))
             {
-                // Dersom databasen allerede finnes, slett eventuelle eksisterende tabeller og opprett nye.
+                // Uncomment to reset and recreate tables if needed
                 //ResetTables();
                 //CreateTables();
             }
             else
             {
-                // Dersom databasen ikke finnes, opprett databasen og tabellene.
+                // Create the database and tables if they don't exist
                 CreateDatabase();
                 CreateTables();
             }
         }
 
+        // Starts the PostgreSQL Windows service
         private static void StartPostgreSQL()
         {
             string startCommand = "net start postgresql-x64-17";
@@ -32,7 +34,7 @@ namespace BO25EB_47
             {
                 FileName = "cmd.exe",
                 Arguments = $"/C {startCommand}",
-                Verb = "runas",        // Kjør som administrator
+                Verb = "runas",            // Run as administrator
                 UseShellExecute = true,
                 CreateNoWindow = true
             };
@@ -43,18 +45,16 @@ namespace BO25EB_47
                 {
                     process.WaitForExit();
                     if (process.ExitCode != 0)
-                    {
-                        throw new Exception("Kunne ikke starte PostgreSQL. Exit code: " + process.ExitCode);
-                    }
+                        throw new Exception("Could not start PostgreSQL. Exit code: " + process.ExitCode);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Kunne ikke starte PostgreSQL: " + ex.Message);
+                Console.WriteLine("Could not start PostgreSQL: " + ex.Message);
             }
         }
 
-        // Stopper PostgreSQL som administrator ved applikasjonsavslutning
+        // Stops the PostgreSQL Windows service
         public static void StopPostgreSQL()
         {
             string stopCommand = "net stop postgresql-x64-17";
@@ -62,7 +62,7 @@ namespace BO25EB_47
             {
                 FileName = "cmd.exe",
                 Arguments = $"/C {stopCommand}",
-                Verb = "runas",        // Kjør som administrator
+                Verb = "runas",            // Run as administrator
                 UseShellExecute = true,
                 CreateNoWindow = true
             };
@@ -72,19 +72,18 @@ namespace BO25EB_47
                 using (Process process = Process.Start(processInfo))
                 {
                     process.WaitForExit();
-                    Console.WriteLine("PostgreSQL stoppet.");
+                    Console.WriteLine("PostgreSQL stopped.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Feil ved stopp av PostgreSQL: " + ex.Message);
+                Console.WriteLine("Error stopping PostgreSQL: " + ex.Message);
             }
         }
 
-        // Sjekker om databasen allerede finnes
+        // Checks if the database exists
         private static bool DatabaseExists(string databaseName)
         {
-            // Kobler til "sjakkdb" for å sjekke i pg_database (alternativt koble til "postgres")
             string connectionString = "Host=localhost;Username=postgres;Password=Zf2ddiae!!;Database=sjakkdb";
 
             using (var conn = new NpgsqlConnection(connectionString))
@@ -98,10 +97,9 @@ namespace BO25EB_47
             }
         }
 
-        // Oppretter databasen hvis den ikke finnes
+        // Creates the database (connects to 'postgres' to do this)
         private static void CreateDatabase()
         {
-            // Her kobler vi oss til "postgres" for å kunne kjøre CREATE DATABASE
             string connectionString = "Host=localhost;Username=postgres;Password=Zf2ddiae!!;Database=postgres";
 
             using (var conn = new NpgsqlConnection(connectionString))
@@ -112,17 +110,17 @@ namespace BO25EB_47
                     try
                     {
                         cmd.ExecuteNonQuery();
-                        Console.WriteLine("Database 'sjakkdb' opprettet.");
+                        Console.WriteLine("Database 'sjakkdb' created.");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Kunne ikke opprette database: {ex.Message}");
+                        Console.WriteLine($"Could not create database: {ex.Message}");
                     }
                 }
             }
         }
 
-        // Sletter eksisterende tabeller (små bokstaver, ingen anførselstegn)
+        // Deletes existing tables (if needed)
         private static void ResetTables()
         {
             string connectionString = "Host=localhost;Username=postgres;Password=Zf2ddiae!!;Database=sjakkdb";
@@ -137,12 +135,12 @@ namespace BO25EB_47
                 using (var cmd = new NpgsqlCommand(dropTables, conn))
                 {
                     cmd.ExecuteNonQuery();
-                    Console.WriteLine("Eksisterende tabeller slettet.");
+                    Console.WriteLine("Existing tables dropped.");
                 }
             }
         }
 
-        // Oppretter tabeller i "sjakkdb" med små bokstaver
+        // Creates the required tables if they don't already exist
         private static void CreateTables()
         {
             string newDbConnectionString = "Host=localhost;Username=postgres;Password=Zf2ddiae!!;Database=sjakkdb";
@@ -175,20 +173,23 @@ namespace BO25EB_47
                         );
 
                         CREATE TABLE IF NOT EXISTS trekk (
-                            trekknr VARCHAR(10) PRIMARY KEY,
+                            partiid INT NOT NULL,
+                            trekknr VARCHAR(10) NOT NULL,
                             tidbrukt INTERVAL,
                             resterendetid INTERVAL,
                             notasjon VARCHAR(10),
                             posisjon VARCHAR(100),
                             evalbar DOUBLE PRECISION,
                             partitype VARCHAR(10),
-                            partiid INT,
-                            CONSTRAINT fk_parti FOREIGN KEY (partiid) REFERENCES onlineparti(onlinepartiid) ON DELETE CASCADE
+                            PRIMARY KEY (partiid, trekknr),
+                            CONSTRAINT fk_parti
+                            FOREIGN KEY (partiid)
+                            REFERENCES botparti(botpartiid)
+                            ON DELETE CASCADE
                         );
                     ";
                     cmd.ExecuteNonQuery();
-
-                    Console.WriteLine("Tabeller opprettet.");
+                    Console.WriteLine("Tables created.");
                 }
             }
         }

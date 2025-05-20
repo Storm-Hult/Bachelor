@@ -1,12 +1,7 @@
 ﻿using Emgu.CV.Mcc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,50 +10,54 @@ namespace BO25EB_47
     public partial class FormBotPlayPage : Form
     {
         private CancellationTokenSource _cts;
-        public string BotPlaysAs { get; set; }
-        public int BotDifficulty { get; set; }
+
+        public string BotPlaysAs { get; set; }   // "White" or "Black"
+        public int BotDifficulty { get; set; }   // 1–10
+        public string StartFEN                   // Can override default start position
+        {
+            get => CurrentFEN;
+            set => CurrentFEN = value;
+        }
 
         int Difficulty;
-        char PlaysAs;
-        string Turn;
+        char PlaysAs;       // 'W' or 'B'
+        string Turn;        // "Player" or "Bot"
+
         string CurrentFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         string LastFEN;
         string Position;
         string TempFen;
         string UCIMove;
-        string Winner;
-        bool CheckMate = false;
-        DateTime CreationTime;
-        int MoveCount = 1;
+        string Winner = "none";
 
-        private DrawBoardClass _drawBoard;
-        // Hei
+        int MoveCount = 1;
+        bool CheckMate = false;
+        int _botGameId;
+
         public FormBotPlayPage()
         {
             InitializeComponent();
-            this.Load += new EventHandler(FormBotPlayPage_Load);
-            this.FormClosed += FormBotPlayPage_FormClosed;
+            Load += FormBotPlayPage_Load;
+            FormClosed += FormBotPlayPage_FormClosed;
         }
 
+        // Cancel background tasks when form closes
         private void FormBotPlayPage_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (_cts != null)
-            {
-                _cts.Cancel();
-                _cts.Dispose();
-                _cts = null;
-            }
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
         }
 
-
+        // Run when form is loaded
         private async void FormBotPlayPage_Load(object sender, EventArgs e)
         {
-            // Initialisering av variabler, tegning osv.
             Difficulty = BotDifficulty;
-            if (!string.IsNullOrEmpty(BotPlaysAs) && BotPlaysAs.ToLower() == "svart")
+
+            if (!string.IsNullOrEmpty(BotPlaysAs) && BotPlaysAs.Equals("Black", StringComparison.OrdinalIgnoreCase))
             {
                 PlaysAs = 'B';
-                Turn = "Bot";
+                Turn = "Bot";  // bot starts
             }
             else
             {
@@ -66,115 +65,213 @@ namespace BO25EB_47
                 Turn = "Player";
             }
 
-            DBHandler.CreateBotGame(Difficulty, 0, Winner, PlaysAs, CreationTime);
+            // Register game in database
+            _botGameId = DBHandler.CreateBotGame(Difficulty, 0, "none", PlaysAs, DateTime.Now);
 
-            char[,] chessBoard = FenToArray.FenToMatrix(CurrentFEN);
-            DrawBoardClass drawBoard = new DrawBoardClass();
-            drawBoard.DrawBoard(800, 160, chessBoard, PlaysAs);
-            this.Controls.Add(drawBoard);
+            // Use custom FEN if provided
+            if (!string.IsNullOrEmpty(StartFEN))
+                CurrentFEN = StartFEN;
 
-            MessageBox.Show($"Du spiller som: {BotPlaysAs}\nVanskelighetsgrad: {Difficulty}", "Bot Settings");
+            // Show starting board
+            DrawBoard.Show(this, CurrentFEN, PlaysAs);
 
-            // Start MoveHandler uten å await
+            // Show bot config info
+            MessageBox.Show($"You're playing as: {BotPlaysAs}\nDifficulty: {Difficulty}", "Bot Settings");
+
             _cts = new CancellationTokenSource();
-            _ = MoveHandler(_cts.Token);
+            _ = MoveHandler(_cts.Token); // begin turn loop
         }
 
+        // Exit and optionally save game
         private void btnBotPlayExit_Click(object sender, EventArgs e)
         {
-            // må legges til lagre alternativ dersom antall trekk >= x, og må avslutte alle prosesser
-            // Opprett en ny instans av FormHomePage
-            FormHomePage homePage = new FormHomePage();
-            homePage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            homePage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
-            homePage.Show();
-            this.Close();
+            var result = MessageBox.Show("Do you want to save the game to the archives?", "Save game",
+                                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+                DBHandler.UpdateBotGameMoveCount(_botGameId, MoveCount);
+            else
+                DBHandler.DeleteBotGame(_botGameId);
+
+            var home = new FormHomePage
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                WindowState = FormWindowState.Maximized
+            };
+            home.Show();
+            Close();
         }
 
+        // Main game loop — alternates between player and bot
         public async Task MoveHandler(CancellationToken token)
         {
-            while (true)
+            while (!CheckMate)
             {
                 token.ThrowIfCancellationRequested();
+
                 if (Turn == "Player")
                 {
                     try
                     {
-
-                        // Unngå busy-waiting
                         await Task.Delay(100, token);
 
-                        // Kjør bildeanalysen på en bakgrunnstråd slik at UI ikke blokkeres
+                        // Capture board from camera
                         Position = await Task.Run(() => CNNHandler.AnalyzeImage(), token);
-                        // Erstatt posisjonsdelen i den nåværende FEN med den nye posisjonsdelen
-                        TempFen = StockFishHandler.ReplaceFenPosition(CurrentFEN, Position);
-                        
-                        // Hvis posisjonsdelen ikke har endret seg, vent og prøv igjen
-                        if (TempFen == LastFEN)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            LastFEN = TempFen;
-                        }
+                        MessageBox.Show($"{Position}");
 
-                        // Opprett en ny StockFishHandler (kan eventuelt gjenbrukes om ønskelig)
-                        StockFishHandler2 checker = new StockFishHandler2();
+                        // Update temporary FEN with latest board
+                        TempFen = StockFishHandler2.ReplaceFenPosition(CurrentFEN, Position);
 
-                        // Kjør simuleringen (kan også pakkes inn i Task.Run hvis den er tung)
-                        // MessageBox.Show($"Temp Fen: {TempFen}");
+                        // Skip if same position as last
+                        if (TempFen == LastFEN) continue;
+                        LastFEN = TempFen;
+
+                        var checker = new StockFishHandler2();
+
+                        // Compare positions and generate move made
                         UCIMove = await Task.Run(() => checker.FindUci(CurrentFEN, TempFen), token);
+
                         if (!string.IsNullOrEmpty(UCIMove))
                         {
                             CurrentFEN = await Task.Run(() => checker.FenMove(CurrentFEN, UCIMove), token);
-                            //_drawBoard.TegnBrettMedFen(CurrentFEN, PlaysAs);
+                            DrawBoard.Show(this, CurrentFEN, PlaysAs);
                             Turn = "Bot";
-                            DBHandler.SaveBotMove(UCIMove, CurrentFEN);
+
+                            DBHandler.SaveBotMove(_botGameId, UCIMove, CurrentFEN);
                             MoveCount++;
-                            DBHandler.UpdateBotGameMoveCount(MoveCount);
+                            DBHandler.UpdateBotGameMoveCount(_botGameId, MoveCount);
+
+                            if (IsCheckmate())
+                            {
+                                Winner = "Player";
+                                EndGameAndAsk();
+                            }
+                            else if (IsStalemate())
+                            {
+                                Winner = "None";
+                                EndGameAndAsk();
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"En feil oppstod: {ex.Message}");
+                        Console.WriteLine($"An error occurred: {ex.Message}");
                     }
                 }
-                else if (Turn == "Bot")
+                else // Bot's turn
                 {
                     try
                     {
-                        await Task.Delay(100);
-                        StockFishHandler checker = new StockFishHandler();
-                        // Finn et trekk med ønsket søkedybde
+                        await Task.Delay(100, token);
+
+                        var checker = new StockFishHandler();
                         string botMove = await Task.Run(() => checker.FindMove(CurrentFEN, Difficulty * 2), token);
+
                         if (!string.IsNullOrEmpty(botMove))
                         {
                             TempFen = CurrentFEN;
                             UCIMove = botMove;
                             CurrentFEN = await Task.Run(() => checker.ApplyUciMove(CurrentFEN, botMove), token);
-                            ExecuteMove();
-                            //_drawBoard.TegnBrettMedFen(CurrentFEN, PlaysAs);
+
+                            DrawBoard.Show(this, CurrentFEN, PlaysAs);
                             Turn = "Player";
-                            DBHandler.SaveBotMove(UCIMove, CurrentFEN);
+
+                            ExecuteMove(); // Send move to robot
+                            DBHandler.SaveBotMove(_botGameId, UCIMove, CurrentFEN);
                             MoveCount++;
-                            DBHandler.UpdateBotGameMoveCount(MoveCount);
+                            DBHandler.UpdateBotGameMoveCount(_botGameId, MoveCount);
+
+                            if (IsCheckmate())
+                            {
+                                Winner = "Bot";
+                                EndGameAndAsk();
+                            }
+                            else if (IsStalemate())
+                            {
+                                Winner = "None";
+                                EndGameAndAsk();
+                            }
                         }
+
                         checker.Close();
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"En feil oppstod: {ex.Message}");
+                        Console.WriteLine($"An error occurred: {ex.Message}");
                     }
                 }
             }
         }
+
+        // Sends the robot move via Python bridge
         private void ExecuteMove()
         {
             string movetype = RobotWaypointsFinder.GetMoveType(TempFen, CurrentFEN, UCIMove);
             List<double[]> waypoints = RobotWaypointsFinder.GetRobotWaypoints(movetype, UCIMove, TempFen, CurrentFEN);
             RobotWaypointsFinder.SendWaypointsToPython(waypoints);
+        }
+
+        // Evaluate current position with Stockfish2
+        private static string EvalPos(string fen)
+        {
+            var sf2 = new StockFishHandler2();
+            return sf2.EvaluatePosition(fen);
+        }
+
+        // Check if current FEN is checkmate
+        public bool IsCheckmate()
+        {
+            StockFishHandler sf = new StockFishHandler();
+            string mv = sf.FindMove(CurrentFEN, 1);
+            return string.IsNullOrEmpty(mv);
+        }
+
+        // Check if current FEN is stalemate
+        private bool IsStalemate()
+        {
+            StockFishHandler sf = new StockFishHandler();
+            return sf.IsStalemate(CurrentFEN);
+        }
+
+        // Finalize game and prompt user for save
+        private void EndGameAndAsk()
+        {
+            CheckMate = true;
+
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
+
+            DBHandler.UpdateBotGameMoveCount(_botGameId, MoveCount);
+
+            var ans = MessageBox.Show(
+                Winner == "Stalemate"
+                ? "The game ended in stalemate!  Do you want to save the game?"
+                : $"{Winner} won!  Do you want to save the game?",
+                "Game over",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (ans == DialogResult.Yes)
+            {
+                DBHandler.UpdateBotGameWinner(
+                    _botGameId,
+                    Winner == "Stalemate" ? "draw" : Winner.ToLower());
+            }
+        }
+
+        // Button: show best move
+        private void btnBotPlayBestMove_Click(object sender, EventArgs e)
+        {
+            var sf = new StockFishHandler();
+            string best = sf.FindMove(CurrentFEN, 20);
+            MessageBox.Show($"Best move: {best}");
+        }
+
+        // Button: evaluate current position
+        private void btnBotPlayEval_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"Position evaluation: {EvalPos(CurrentFEN)}");
         }
     }
 }

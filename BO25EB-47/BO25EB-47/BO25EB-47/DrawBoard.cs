@@ -1,113 +1,101 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace BO25EB_47
 {
-    internal class DrawBoardClass : Control
+    /// <summary>
+    /// Draws a chessboard in any parent control.
+    /// Usage: DrawBoard.Show(parent, fen, orientation [, x, y])
+    /// </summary>
+    public static class DrawBoard
     {
-        private const int tileSize = 100;      // Størrelse på rutene
-        private const int gridSize = 8;        // 8x8 sjakkbrett
-        private readonly Font pieceFont = new Font("Arial", 32, FontStyle.Bold);
-        private char[,] board = new char[8, 8];
-        // 'W' for standard (hvite nederst) og 'B' for flippet (svart nederst)
-        private char boardOrientation = 'W';
+        private const int TileSize = 100, GridSize = 8;
+        private static readonly Font PieceFont = new Font("Arial", 32, FontStyle.Bold);
+        private static BoardControl _current;   // stores the currently drawn board
 
-        public DrawBoardClass()
+        public static void Show(Control parent, string fen, char orientation, int x = 800, int y = 160)
         {
-            this.Size = new Size(tileSize * gridSize, tileSize * gridSize);
-        }
+            if (parent == null || string.IsNullOrWhiteSpace(fen)) return;
 
-        // Utvidet metode: legg til parameteren orientation ('W' eller 'B')
-        public void DrawBoard(int x, int y, char[,] chessBoard, char orientation)
-        {
-            if (chessBoard.GetLength(0) != gridSize || chessBoard.GetLength(1) != gridSize)
-                throw new ArgumentException("Må være en 8x8 sjakkmatrise.");
-
-            this.board = chessBoard;
-            // Sett orientering – alt annet enn 'B' tolkes som 'W'
-            this.boardOrientation = (orientation == 'B') ? 'B' : 'W';
-            this.Location = new Point(x, y);
-            this.Invalidate();
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Graphics g = e.Graphics;
-
-            if (boardOrientation == 'W')
+            // Remove previously displayed board, if any
+            if (_current != null)
             {
-                // White-orientering: rader inverteres for at rank 1 (board[0,*]) skal ligge nederst.
-                for (int r = 0; r < gridSize; r++)
-                {
-                    int drawRow = gridSize - 1 - r;
-                    for (int c = 0; c < gridSize; c++)
-                    {
-                        // Bestem rutefarge basert på board-indeks slik at A1 (board[0,0]) blir mørk
-                        Brush tileBrush = ((r + c) % 2 == 0) ? Brushes.Gray : Brushes.LightGray;
-                        int xPos = c * tileSize;
-                        int yPos = drawRow * tileSize;
-                        g.FillRectangle(tileBrush, xPos, yPos, tileSize, tileSize);
-                        g.DrawRectangle(Pens.Black, xPos, yPos, tileSize, tileSize);
+                parent.Controls.Remove(_current);
+                _current.Dispose();
+            }
 
-                        char piece = board[r, c];
-                        if (piece != '.')
+            // Convert FEN to 2D board array and create new board control
+            _current = new BoardControl(FenToArray.FenToMatrix(fen), orientation)
+            {
+                Location = new Point(x, y)
+            };
+
+            // Add to parent control and bring to front
+            parent.Controls.Add(_current);
+            _current.BringToFront();
+            parent.Refresh();
+        }
+
+        /* ---------- Internal custom control that draws the board ---------- */
+        private sealed class BoardControl : Control
+        {
+            private readonly char[,] _board;
+            private readonly char _ori;  // 'W' for white orientation, 'B' for black
+
+            public BoardControl(char[,] board, char ori)
+            {
+                if (board.GetLength(0) != GridSize || board.GetLength(1) != GridSize)
+                    throw new ArgumentException("Must be an 8×8 matrix");
+                _board = board;
+                _ori = (ori == 'B') ? 'B' : 'W';  // default to white if invalid
+                Size = new Size(TileSize * GridSize, TileSize * GridSize);
+                DoubleBuffered = true;  // reduce flickering
+            }
+
+            // Custom drawing logic
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                base.OnPaint(e);
+                Graphics g = e.Graphics;
+
+                for (int r = 0; r < GridSize; r++)
+                {
+                    // Flip rows (always) and columns (if black's perspective)
+                    int drawRow = GridSize - 1 - r;
+                    for (int c = 0; c < GridSize; c++)
+                    {
+                        int drawCol = (_ori == 'B') ? GridSize - 1 - c : c;
+
+                        // A1 should be dark: dark if (row + col) % 2 == 1
+                        Brush tile = ((r + c) % 2 == 0) ? Brushes.LightGray : Brushes.Gray;
+
+                        int x = drawCol * TileSize;
+                        int y = drawRow * TileSize;
+
+                        g.FillRectangle(tile, x, y, TileSize, TileSize);
+                        g.DrawRectangle(Pens.Black, x, y, TileSize, TileSize);
+
+                        char p = _board[r, c];
+                        if (p != '.')
                         {
-                            string pieceSymbol = GetPieceSymbol(piece);
-                            Brush pieceBrush = char.IsUpper(piece) ? Brushes.Black : Brushes.White;
-                            SizeF textSize = g.MeasureString(pieceSymbol, pieceFont);
-                            float pieceX = xPos + (tileSize - textSize.Width) / 2;
-                            float pieceY = yPos + (tileSize - textSize.Height) / 2;
-                            g.DrawString(pieceSymbol, pieceFont, pieceBrush, pieceX, pieceY);
+                            // Get Unicode symbol and color
+                            string sym = GetSymbol(p);
+                            Brush brush = char.IsUpper(p) ? Brushes.White : Brushes.Black;
+                            SizeF ts = g.MeasureString(sym, PieceFont);
+
+                            // Center piece symbol inside tile
+                            g.DrawString(sym, PieceFont, brush,
+                                         x + (TileSize - ts.Width) / 2,
+                                         y + (TileSize - ts.Height) / 2);
                         }
                     }
                 }
             }
-            else // boardOrientation == 'B'
-            {
-                // Black-orientering: brettet roteres 180°.
-                // Tegningskoordinatene for hver rute beregnes slik at:
-                // •   x = (gridSize - 1 - c) * tileSize
-                // •   y = r * tileSize
-                // For å sikre korrekt fargebruk (at nederst til venstre i black-view er mørk),
-                // regnes en "normalisert" indeks (som flipper board-indeksene) for fargevalget.
-                for (int r = 0; r < gridSize; r++)
-                {
-                    for (int c = 0; c < gridSize; c++)
-                    {
-                        int drawCol = gridSize - 1 - c;
-                        int drawRow = r;
-                        // Normaliserte indekser (flippes) for å beregne rutefarge slik at
-                        // den ruten som skal være A1 i black-view blir mørk.
-                        int normRow = gridSize - 1 - r;
-                        int normCol = gridSize - 1 - c;
-                        Brush tileBrush = ((normRow + normCol) % 2 == 0) ? Brushes.Gray : Brushes.LightGray;
 
-                        int xPos = drawCol * tileSize;
-                        int yPos = drawRow * tileSize;
-                        g.FillRectangle(tileBrush, xPos, yPos, tileSize, tileSize);
-                        g.DrawRectangle(Pens.Black, xPos, yPos, tileSize, tileSize);
-
-                        char piece = board[r, c];
-                        if (piece != '.')
-                        {
-                            string pieceSymbol = GetPieceSymbol(piece);
-                            Brush pieceBrush = char.IsUpper(piece) ? Brushes.Black : Brushes.White;
-                            SizeF textSize = g.MeasureString(pieceSymbol, pieceFont);
-                            float pieceX = xPos + (tileSize - textSize.Width) / 2;
-                            float pieceY = yPos + (tileSize - textSize.Height) / 2;
-                            g.DrawString(pieceSymbol, pieceFont, pieceBrush, pieceX, pieceY);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Konverterer FEN-tegn til Unicode-sjakkbrikker
-        private string GetPieceSymbol(char piece)
-        {
-            return piece switch
+            // Map character to Unicode chess symbol
+            private static string GetSymbol(char p) => p switch
             {
                 'r' => "♜",
                 'n' => "♞",
@@ -123,27 +111,6 @@ namespace BO25EB_47
                 'P' => "♙",
                 _ => ""
             };
-        }
-
-        public void TegnBrettMedFen(string fen, char farge)
-        {
-            if (!string.IsNullOrEmpty(fen))
-            {
-                char[,] chessBoard = FenToArray.FenToMatrix(fen);
-                DrawBoardClass drawBoard = new DrawBoardClass();
-                drawBoard.DrawBoard(800, 160, chessBoard, farge);
-
-                // Fjern tidligere tegnet brett
-                var previousBoards = this.Controls.OfType<DrawBoardClass>().ToList();
-                foreach (var board in previousBoards)
-                {
-                    this.Controls.Remove(board);
-                    board.Dispose();
-                }
-                this.Controls.Add(drawBoard);
-                drawBoard.BringToFront();
-                this.Refresh();
-            }
         }
     }
 }

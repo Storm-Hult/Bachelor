@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BO25EB_47
 {
     class FenToArray
     {
+        // Converts a FEN string to a 2D board matrix (char[8,8])
         public static char[,] FenToMatrix(string fen)
         {
             int spaceIndex = fen.IndexOf(' ');
-            if (spaceIndex == -1) throw new ArgumentException("Ugyldig FEN-streng.");
+            if (spaceIndex == -1) throw new ArgumentException("Invalid FEN string.");
 
             string boardPart = fen.Substring(0, spaceIndex);
             char[,] board = new char[8, 8];
 
-            // Sett alle ruter til '.' som representerer tomme felter
+            // Initialize all squares to '.' (empty)
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -25,8 +22,9 @@ namespace BO25EB_47
                 }
             }
 
+            // Split FEN into 8 rows
             string[] rows = boardPart.Split('/');
-            if (rows.Length != 8) throw new ArgumentException("Ugyldig FEN-struktur.");
+            if (rows.Length != 8) throw new ArgumentException("Invalid FEN format.");
 
             for (int row = 0; row < 8; row++)
             {
@@ -35,10 +33,12 @@ namespace BO25EB_47
                 {
                     if (char.IsDigit(c))
                     {
+                        // Empty squares — advance column
                         col += c - '0';
                     }
                     else
                     {
+                        // Place piece
                         board[row, col] = c;
                         col++;
                     }
@@ -48,7 +48,7 @@ namespace BO25EB_47
             return board;
         }
 
-
+        // Converts a 2D board matrix (char[8,8]) to a FEN string (position only)
         public static string MatrixToFEN(char[,] board)
         {
             int rows = board.GetLength(0);
@@ -59,30 +59,37 @@ namespace BO25EB_47
             {
                 string fenRow = "";
                 int emptyCount = 0;
+
                 for (int j = 0; j < cols; j++)
                 {
                     char cell = board[i, j];
                     if (cell == '.')
                     {
+                        // Count consecutive empty squares
                         emptyCount++;
                     }
                     else
                     {
+                        // Append empty count (if any) before a piece
                         if (emptyCount > 0)
                         {
                             fenRow += emptyCount.ToString();
                             emptyCount = 0;
                         }
-                        fenRow += cell;
+                        fenRow += cell; // Add piece
                     }
                 }
+
+                // Append trailing empty squares (if any)
                 if (emptyCount > 0)
                 {
                     fenRow += emptyCount.ToString();
                 }
+
                 fenRows[i] = fenRow;
             }
-            return string.Join("/", fenRows);
+
+            return string.Join("/", fenRows); // Combine rows into full FEN position
         }
     }
 }

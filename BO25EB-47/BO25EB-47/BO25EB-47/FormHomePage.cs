@@ -7,43 +7,46 @@ namespace BO25EB_47
             InitializeComponent();
         }
 
+        // Navigate to bot game setup
         private void btnHomeBot_Click(object sender, EventArgs e)
         {
-            // Opprett en ny instans av FormBotPage
-            FormBotPage botPage = new FormBotPage();
-            botPage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            botPage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
+            FormBotPage botPage = new FormBotPage
+            {
+                FormBorderStyle = FormBorderStyle.None,    // Remove window borders
+                WindowState = FormWindowState.Maximized    // Fullscreen
+            };
             botPage.Show();
-            this.Close();
+            this.Close();  // Close current (home) form
         }
 
+        // Navigate to online game setup
         private void btnHomeOnline_Click(object sender, EventArgs e)
         {
-            // Opprett en ny instans av FormOnlinePage
-            FormOnlinePage onlinePage = new FormOnlinePage();
-            onlinePage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            onlinePage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
+            FormOnlinePage onlinePage = new FormOnlinePage
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                WindowState = FormWindowState.Maximized
+            };
             onlinePage.Show();
             this.Close();
         }
 
+        // Navigate to archived games view
         private void btnHomeArchives_Click(object sender, EventArgs e)
         {
-            // Opprett en ny instans av FormOnlinePage
-            FormArchivesPage archivesPage = new FormArchivesPage();
-            archivesPage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            archivesPage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
+            FormArchivesPage archivesPage = new FormArchivesPage
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                WindowState = FormWindowState.Maximized
+            };
             archivesPage.Show();
             this.Close();
         }
 
+        // Exit the entire application
         private void btnHomeExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-            Application.Exit(); // required to close a fullscreen application
+            Application.Exit(); // Close the application completely
         }
     }
 }

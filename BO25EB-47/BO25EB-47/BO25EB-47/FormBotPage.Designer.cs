@@ -35,6 +35,7 @@
             cbBotPlaysAs = new ComboBox();
             label1 = new Label();
             label2 = new Label();
+            label3 = new Label();
             SuspendLayout();
             // 
             // btnBotPageHome
@@ -63,7 +64,7 @@
             btnBotCustomPos.Name = "btnBotCustomPos";
             btnBotCustomPos.Size = new Size(167, 45);
             btnBotCustomPos.TabIndex = 2;
-            btnBotCustomPos.Text = "Custom posision";
+            btnBotCustomPos.Text = "Custom position";
             btnBotCustomPos.UseVisualStyleBackColor = true;
             btnBotCustomPos.Click += btnBotCustomPos_Click;
             // 
@@ -101,11 +102,21 @@
             label2.TabIndex = 6;
             label2.Text = "Plays as";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(366, 41);
+            label3.Name = "label3";
+            label3.Size = new Size(89, 25);
+            label3.TabIndex = 7;
+            label3.Text = "Bot menu";
+            // 
             // FormBotPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(cbBotPlaysAs);
@@ -128,5 +139,6 @@
         private ComboBox cbBotPlaysAs;
         private Label label1;
         private Label label2;
+        private Label label3;
     }
 }

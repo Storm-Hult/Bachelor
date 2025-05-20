@@ -15,25 +15,17 @@ namespace BO25EB_47
         public FormOnlinePlayPage()
         {
             InitializeComponent();
-            // Anta at du allerede har en metode som konverterer FEN til en 8x8 matrise
             string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-            char[,] chessBoard = FenToArray.FenToMatrix(fen); // Kaller din eksisterende FEN-parser
+            char[,] chessBoard = FenToArray.FenToMatrix(fen);
 
-            // Opprett sjakkbrett-kontrollen
-            DrawBoardClass drawBoard = new DrawBoardClass();
-            drawBoard.DrawBoard(800, 160, chessBoard, 'B'); // Tegn brettet på (20,20)
-
-            // Legg til sjakkbrettet i skjemaet
-            this.Controls.Add(drawBoard);
+            DrawBoard.Show(this, fen, 'B');
         }
 
         private void btnOnlinePlayResign_Click(object sender, EventArgs e)
         {
-            // Opprett en ny instans av FormHomePage
             FormHomePage homePage = new FormHomePage();
-            homePage.FormBorderStyle = FormBorderStyle.None;  // Fjern kantlinjer og tittel
-            homePage.WindowState = FormWindowState.Maximized; // Fullskjerm
-            // Vis det nye skjemaet
+            homePage.FormBorderStyle = FormBorderStyle.None;
+            homePage.WindowState = FormWindowState.Maximized;
             homePage.Show();
             this.Close();
         }

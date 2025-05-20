@@ -39,6 +39,7 @@
             txtArchivesDate = new TextBox();
             txtArchivesWinner = new TextBox();
             cbArchivesMoveNr = new ComboBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // btnArchivesMenu
@@ -59,6 +60,7 @@
             btnArchivesSetPos.TabIndex = 1;
             btnArchivesSetPos.Text = "Set position";
             btnArchivesSetPos.UseVisualStyleBackColor = true;
+            btnArchivesSetPos.Click += btnArchivesSetPos_Click;
             // 
             // cbArchivesGames
             // 
@@ -113,11 +115,21 @@
             cbArchivesMoveNr.TabIndex = 8;
             cbArchivesMoveNr.SelectedIndexChanged += cbArchivesMoveNr_SelectedIndexChanged;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(66, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(108, 25);
+            label1.TabIndex = 9;
+            label1.Text = "The archives";
+            // 
             // FormArchivesPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 505);
+            Controls.Add(label1);
             Controls.Add(cbArchivesMoveNr);
             Controls.Add(txtArchivesWinner);
             Controls.Add(txtArchivesDate);
@@ -144,5 +156,6 @@
         private TextBox txtArchivesDate;
         private TextBox txtArchivesWinner;
         private ComboBox cbArchivesMoveNr;
+        private Label label1;
     }
 }

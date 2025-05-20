@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-
-namespace BO25EB_47
+﻿namespace BO25EB_47
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text.Json;
+
     class RobotWaypointsFinder
     {
+        // Checks if a board square is empty
         public static bool IsEmpty(char c)
         {
             return c == '.';
         }
 
+        // Determines the move type based on FENs and UCI move string
         public static string GetMoveType(string beforeFen, string afterFen, string uciMove)
         {
             var boardBefore = FenToArray.FenToMatrix(beforeFen);
@@ -30,14 +29,14 @@ namespace BO25EB_47
             bool isPromotion = uciMove.Length == 5;
             bool isPawn = char.ToLower(movedPiece) == 'p';
 
-            // En passant
+            // Detect en passant
             if (isPawn && IsEmpty(boardBefore[toRow, toCol]) && !IsEmpty(boardAfter[toRow, toCol]) &&
                 fromCol != toCol && IsEmpty(boardAfter[fromRow, toCol]))
             {
                 return "en passant";
             }
 
-            // Castling
+            // Detect castling
             if (char.ToLower(movedPiece) == 'k' && Math.Abs(fromCol - toCol) == 2)
             {
                 return toCol > fromCol ? "castling kingside" : "castling queenside";
@@ -49,7 +48,7 @@ namespace BO25EB_47
             return "normal";
         }
 
-
+        // Converts chess square notation to matrix coordinates
         static (int, int) SquareToCoords(string square)
         {
             int col = square[0] - 'a';
@@ -57,6 +56,7 @@ namespace BO25EB_47
             return (row, col);
         }
 
+        // Returns list of robot waypoints for a given move
         public static List<double[]> GetRobotWaypoints(string moveType, string uciMove, string beforeFen, string afterFen)
         {
             var waypoints = new List<double[]>();
@@ -77,11 +77,13 @@ namespace BO25EB_47
                         string capturedSquare = $"{to[0]}{(char)(to[1] + direction)}";
                         var capPose = GetPoseFromSquare(capturedSquare);
 
+                        // Capture opponent pawn
                         waypoints.Add(SetZ(capPose, 0.155));
                         waypoints.Add(SetZ(capPose, 0.055));
                         waypoints.Add(SetZ(capPose, 0.155));
                         waypoints.Add(offBoardPose);
 
+                        // Move own pawn
                         waypoints.Add(SetZ(fromPose, 0.155));
                         waypoints.Add(SetZ(fromPose, 0.055));
                         waypoints.Add(SetZ(fromPose, 0.155));
@@ -96,6 +98,7 @@ namespace BO25EB_47
                         bool isWhite = beforeFen.Contains(" w ");
                         bool kingside = moveType.Contains("kingside");
 
+                        // Define king and rook positions
                         string kingFrom = isWhite ? "e1" : "e8";
                         string kingTo = kingside ? (isWhite ? "g1" : "g8") : (isWhite ? "c1" : "c8");
                         string rookFrom = kingside ? (isWhite ? "h1" : "h8") : (isWhite ? "a1" : "a8");
@@ -106,7 +109,7 @@ namespace BO25EB_47
                         var rookFromPose = GetPoseFromSquare(rookFrom);
                         var rookToPose = GetPoseFromSquare(rookTo);
 
-                        // Flytt konge
+                        // Move king
                         waypoints.Add(SetZ(kingFromPose, 0.155));
                         waypoints.Add(SetZ(kingFromPose, 0.055));
                         waypoints.Add(SetZ(kingFromPose, 0.155));
@@ -114,7 +117,7 @@ namespace BO25EB_47
                         waypoints.Add(SetZ(kingToPose, 0.055));
                         waypoints.Add(SetZ(kingToPose, 0.155));
 
-                        // Flytt tårn
+                        // Move rook
                         waypoints.Add(SetZ(rookFromPose, 0.155));
                         waypoints.Add(SetZ(rookFromPose, 0.055));
                         waypoints.Add(SetZ(rookFromPose, 0.155));
@@ -125,14 +128,15 @@ namespace BO25EB_47
                     }
                 case "promotion capture":
                     {
-                        // Fjern motstanders brikke
                         var capPose = GetPoseFromSquare(to);
+
+                        // Remove opponent piece
                         waypoints.Add(SetZ(capPose, 0.155));
                         waypoints.Add(SetZ(capPose, 0.055));
                         waypoints.Add(SetZ(capPose, 0.155));
                         waypoints.Add(offBoardPose);
 
-                        // Fjern egen brikke
+                        // Remove promoting pawn
                         waypoints.Add(SetZ(fromPose, 0.155));
                         waypoints.Add(SetZ(fromPose, 0.055));
                         waypoints.Add(SetZ(fromPose, 0.155));
@@ -141,7 +145,7 @@ namespace BO25EB_47
                     }
                 case "promotion":
                     {
-                        // Fjern egen brikke
+                        // Remove promoting pawn
                         waypoints.Add(SetZ(fromPose, 0.155));
                         waypoints.Add(SetZ(fromPose, 0.055));
                         waypoints.Add(SetZ(fromPose, 0.155));
@@ -151,11 +155,14 @@ namespace BO25EB_47
                 case "capture":
                     {
                         var capPose = GetPoseFromSquare(to);
+
+                        // Remove captured piece
                         waypoints.Add(SetZ(capPose, 0.155));
                         waypoints.Add(SetZ(capPose, 0.055));
                         waypoints.Add(SetZ(capPose, 0.155));
                         waypoints.Add(offBoardPose);
 
+                        // Move attacker
                         waypoints.Add(SetZ(fromPose, 0.155));
                         waypoints.Add(SetZ(fromPose, 0.055));
                         waypoints.Add(SetZ(fromPose, 0.155));
@@ -166,6 +173,7 @@ namespace BO25EB_47
                     }
                 case "normal":
                     {
+                        // Standard move: pick up and place
                         waypoints.Add(SetZ(fromPose, 0.155));
                         waypoints.Add(SetZ(fromPose, 0.055));
                         waypoints.Add(SetZ(fromPose, 0.155));
@@ -178,15 +186,18 @@ namespace BO25EB_47
                     break;
             }
 
+            // Return to center pose
             waypoints.Add(centerPose);
             return waypoints;
         }
 
+        // Set new Z value in a pose (preserve XY + orientation)
         static double[] SetZ(double[] pose, double z)
         {
             return new double[] { pose[0], pose[1], z, pose[3], pose[4], pose[5] };
         }
 
+        // Converts chess square (e.g., "e4") to a robot (x, y) pose
         static double[] GetPoseFromSquare(string square)
         {
             int row = square[0] - 'a';
@@ -199,19 +210,18 @@ namespace BO25EB_47
             double x = xA1 + (xA8 - xA1) * (col / 7.0);
             double y = yA1 + (yH1 - yA1) * (row / 7.0);
 
-            return new double[] { x, y, 0.16, 0, 3.14, 0 };
+            return new double[] { x, y, 0.16, 0, 3.14, 0 };  // Constant height + orientation
         }
+
+        // Sends the list of waypoints to Python as JSON and runs the script
         public static void SendWaypointsToPython(List<double[]> waypoints)
         {
-            // Serialiser waypoints til JSON
             string json = JsonSerializer.Serialize(waypoints);
-
-            // Angi den fulle banen til Python-skriptet
             string scriptPath = @"C:\Users\Elias\Documents\skole\RobotMovements.py";
 
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "python", // Python er lagt til i PATH
+                FileName = "python",
                 Arguments = $"\"{scriptPath}\" \"{json}\"",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -225,15 +235,14 @@ namespace BO25EB_47
                 string error = process.StandardError.ReadToEnd();
                 process.WaitForExit();
 
-                Console.WriteLine("Output fra Python-skriptet:");
+                Console.WriteLine("Output from Python script:");
                 Console.WriteLine(output);
                 if (!string.IsNullOrWhiteSpace(error))
                 {
-                    Console.WriteLine("Feilmeldinger:");
+                    Console.WriteLine("Errors:");
                     Console.WriteLine(error);
                 }
             }
         }
     }
-
 }
